@@ -177,7 +177,7 @@ const expCards = [
     logoPath: "/images/logos/c1.png",
     title: "Founder & CEO (Technical)",
     date: "August 2025 - September 2025",
-    link: "https://www.google.com/",   // ✅ added link here
+    link: "https://www.freelancer.in/u/abhayrajsinghman",   // ✅ added link here
     responsibilities: [
       "Developed and maintained user-facing features for Advitiya Team's web platform.",
       "Optimized web applications for performance, responsiveness, and seamless user experience.",
