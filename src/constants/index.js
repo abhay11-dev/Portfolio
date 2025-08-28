@@ -232,7 +232,7 @@ const testimonials = [
     imgPath: "/images/client5.png",
   },
   {
-    name: "kishlay  Kumar",
+    name: "kishlay Kumar",
     mentions: "kkishlay502@gmail.com ",
     review:
       "It was a pleasure working with Abhayraj. His technical knowledge and creative mindset made my project stand out beautifully.",
