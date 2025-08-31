@@ -12,6 +12,7 @@ const Contact = () => {
     email: "",
     message: "",
   });
+  const [status, setStatus] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,28 +20,36 @@ const Contact = () => {
   };
 
   const handleSubmit = async (e) => {
-     console.log("Service ID:", import.meta.env.VITE_EMAILJS_SERVICE_ID);
-  console.log("Template ID:", import.meta.env.VITE_EMAILJS_TEMPLATE_ID);
-  console.log("Public Key:", import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
     e.preventDefault();
-    setLoading(true); // Show loading state
+    setLoading(true);
+    setStatus(null);
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    console.log("Service ID:", serviceId);
+    console.log("Template ID:", templateId);
+    console.log("Public Key:", publicKey);
 
     try {
-      await emailjs.sendForm(
-        
-  import.meta.env.VITE_EMAILJS_SERVICE_ID,
-  import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-  formRef.current,
-  import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-);
+      const res = await emailjs.sendForm(
+        serviceId,
+        templateId,
+        formRef.current,
+        publicKey
+      );
 
-
-      // Reset form and stop loading
+      console.log("EmailJS response:", res);
       setForm({ name: "", email: "", message: "" });
+      setStatus({ type: "success", message: "✅ Message sent successfully!" });
     } catch (error) {
-      console.error("EmailJS Error:", error); // Optional: show toast
+      console.error("EmailJS Error:", error);
+      const errMsg =
+        error?.text || error?.message || JSON.stringify(error) || "Please try again.";
+      setStatus({ type: "error", message: `❌ Failed to send: ${errMsg}` });
     } finally {
-      setLoading(false); // Always stop loading, even on error
+      setLoading(false);
     }
   };
 
@@ -59,6 +68,9 @@ const Contact = () => {
                 onSubmit={handleSubmit}
                 className="w-full flex flex-col gap-7"
               >
+                {/* Hidden field for title used in EmailJS template */}
+                <input type="hidden" name="title" value="Website Contact" />
+
                 <div>
                   <label htmlFor="name">Your name</label>
                   <input
@@ -98,20 +110,29 @@ const Contact = () => {
                   />
                 </div>
 
-                <button type="submit">
+                <button type="submit" disabled={loading}>
                   <div className="cta-button group">
                     <div className="bg-circle" />
-                    <p className="text">
-                      {loading ? "Sending..." : "Send Message"}
-                    </p>
+                    <p className="text">{loading ? "Sending..." : "Send Message"}</p>
                     <div className="arrow-wrapper">
                       <img src="/images/arrow-down.svg" alt="arrow" />
                     </div>
                   </div>
                 </button>
+
+                {status && (
+                  <p
+                    className={`mt-2 text-sm ${
+                      status.type === "success" ? "text-green-500" : "text-red-500"
+                    }`}
+                  >
+                    {status.message}
+                  </p>
+                )}
               </form>
             </div>
           </div>
+
           <div className="xl:col-span-7 min-h-96">
             <div className="bg-[#cd7c2e] w-full h-full hover:cursor-grab rounded-3xl overflow-hidden">
               <ContactExperience />

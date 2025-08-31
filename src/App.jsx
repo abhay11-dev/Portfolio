@@ -8,9 +8,11 @@ import ShowcaseSection from "./sections/ShowcaseSection";
 import LogoShowcase from "./sections/LogoShowcase";
 import FeatureCards from "./sections/FeatureCards";
 import Navbar from "./components/NavBar";
+import EnvTest from "./sections/EnvTest.jsx";
 
 const App = () => (
   <>
+     <EnvTest />
     <Navbar />
     <Hero />
     <ShowcaseSection />

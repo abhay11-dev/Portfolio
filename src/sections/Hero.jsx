@@ -53,7 +53,7 @@ const Hero = () => {
             <p className="text-white-50 md:text-xl relative z-10 pointer-events-none">
               
               Hi, I’m Abhayraj Singh Mandloi, a Founder & Full Stack Developer.
-
+                      
             </p>
 
             <Button
